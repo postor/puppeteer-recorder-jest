@@ -1,37 +1,68 @@
 import { Component } from 'react'
+import Card from './Card'
 
 export default class Main extends Component {
 
-  testItems = []
-  currentItemIndex = 0
+  state = {
+    testItems: [],
+    currentItemIndex: 0,
+    currentId: 0,
+  }
+
+  addTestItem() {
+    const { testItems, currentId } = this.state
+    const newId = currentId + 1
+    this.setState({
+      testItems: [{
+        id: newId,
+        name: `${newId}# new test`,
+        editing: true,
+      }].concat(testItems),
+      currentId: newId,
+      currentItemIndex: 0,
+    })
+
+  }
+
+  updateItem(item, index) {
+    const { testItems, } = this.state
+    const tmp = [...testItems]
+    tmp[index] = item
+    this.setState({
+      testItems: tmp,
+    })
+  }
+
+  removeItem(index) {
+    const { testItems, } = this.state
+    const tmp = [...testItems]
+    tmp.splice(index, 1)
+    this.setState({
+      testItems: tmp,
+    })
+  }
 
   render() {
+    const { testItems, currentItemIndex, } = this.state
+    const currentItem = testItems.length && testItems[currentItemIndex]
     return (<div className="row">
       <div className="col s12 m4 l3">
         <div className="collection">
-          <a href="#!" className="collection-item"><i className="material-icons">add</i></a>
-          <a href="#!" className="collection-item">Alvin</a>
-          <a href="#!" className="collection-item active">Alvin</a>
-          <a href="#!" className="collection-item">Alvin</a>
+          <a onClick={() => this.addTestItem()} className="collection-item"><i className="material-icons">add</i></a>
+          {testItems.map((item, i) => {
+            return (<a key={item.id} onClick={() => this.setState({ currentItemIndex: i })} className="collection-item">{item.name}</a>)
+          })}
         </div>
       </div>
       <div className="col s12 m8 l9">
-        <div className="card">
-          <div className="card-image">
-            <img src="/images/default.webp" />
-            <span className="card-title">Card Title</span>
-          </div>
-          <div className="card-content">
-            <p>I am a very simple card. I am good at containing small bits of information.          I am convenient because I require little markup to use effectively.</p>
-          </div>
-          <div className="card-action">
-            <a href="#">update|更新</a>
-            <a href="#">test|测试</a>
-            <a href="#">code|代码</a>
-            <a href="#" className="right"><i className="material-icons">delete</i></a>
-          </div>
-        </div>
-
+        {currentItem ? (<Card
+          item={currentItem}
+          update={(item) => this.updateItem(item, currentItemIndex)}
+          remove={() => this.removeItem(currentItemIndex)}
+        />) : (<div>
+          <p>no test yet|尚无测试用例</p>
+          <a onClick={() => this.addTestItem()} className="waves-effect waves-light btn"><i className="material-icons right">add</i>add|添加</a>
+        </div>)}
       </div>
     </div>)
   }
