@@ -1,0 +1,28 @@
+{
+  "name": "puppeteer-recorder-jest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/postor/puppeteer-recorder-jest.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/postor/puppeteer-recorder-jest/issues"
+  },
+  "homepage": "https://github.com/postor/puppeteer-recorder-jest#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "next": "^7.0.1",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-materialize": "^2.4.6"
+  }
+}
