@@ -8,6 +8,7 @@ export default class Card extends Component {
     const { editing, code, name } = item
     const onlyCodeMode = !code || !name;
 
+    /*
     let actions = []
     if (!onlyCodeMode) {
       actions.push(<a key={0} href="#">generate|生成截图</a>)
@@ -22,13 +23,10 @@ export default class Card extends Component {
     if (!actions.length) {
       actions.push(<span key={4}><i className="material-icons">warning</i> copy puppeteer recorder code first|请先从puppeteer-recorder拷贝代码 </span>)
     }
+    */
 
     return (<div className="card">
       {(editing || onlyCodeMode) ? (<CodeMode item={item} update={(item) => update(item)} />) : (<ImageMode item={item} />)}
-      <div className="card-action">
-        {actions}
-        <a onClick={() => remove()} className="right"><i className="material-icons">delete</i></a>
-      </div>
     </div>)
   }
 }

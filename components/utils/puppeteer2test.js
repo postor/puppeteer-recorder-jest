@@ -12,7 +12,7 @@ describe('visualtest' + <%= id %>, () => {
     const browser = await target.launch(launchConfig)
     const page = await browser.newPage()
     try{
-      
+
     //----your code start----
     <%= codes %>
     //----your code end----
@@ -46,6 +46,5 @@ export default (config) => {
   return compiled({
     ...config,
     codes,
-    name: name.replace(/\W/g, ' '),
   })
 }

@@ -15,7 +15,7 @@ export default class CodeMode extends Component {
     const { codeGenerated, id, name } = item
     if (codeGenerated) {
       request.put('/api/file').send({
-        file: `tests/${id}.${name.replace(/\W/g, '')}.test.js`,
+        file: `tests/${id}-${name}.test.js`,
         content: codeGenerated,
       }).then(res => {
         const { file } = res.body
@@ -28,7 +28,18 @@ export default class CodeMode extends Component {
         }
       })
     }
+  }
 
+  onCodeChange(code) {
+    const { item } = this.props
+    const { id, name } = item
+    this.update({
+      ...item,
+      code,
+      codeGenerated: p2t({
+        id, name, code
+      }),
+    })
   }
 
   render() {
@@ -54,18 +65,18 @@ export default class CodeMode extends Component {
           />
         </span>
         <p>code from puppeteer recorder|请填入puppeteer recorder生成的代码:</p>
-        <textarea value={code} onChange={(e) => {
-          this.update({
-            ...item,
-            code: e.target.value,
-            codeGenerated: p2t({
-              id, name, code
-            }),
-          })
-        }} />
+        <textarea value={code}
+          onInput={(e) => this.onCodeChange(e.target.value)}
+          onBlur={(e) => this.onCodeChange(e.target.value)}
+          style={{
+            height: '20em',
+          }}
+        />
         <div>
           <p>code for test file: {file}</p>
-          <textarea value={codeGenerated} />
+          <textarea value={codeGenerated} style={{
+            height: '20em',
+          }} />
         </div>
       </div>
     </div>)
