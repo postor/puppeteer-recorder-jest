@@ -1,6 +1,7 @@
 import { Component } from 'react'
 import Card from './Card'
 import request from 'superagent'
+import moment from 'moment'
 
 export default class Main extends Component {
 
@@ -27,9 +28,9 @@ export default class Main extends Component {
     })
   }
 
-  componentDidUpdate(){
-    if(this.readyToUpload){
-      request.post('/api/db/push').query({ path: '/' }).send(this.state).then(()=>{})
+  componentDidUpdate() {
+    if (this.readyToUpload) {
+      request.post('/api/db/push').query({ path: '/' }).send(this.state).then(() => { })
     }
   }
 
@@ -39,7 +40,7 @@ export default class Main extends Component {
     this.setState({
       testItems: [{
         id: newId,
-        name: `${newId}# new test`,
+        name: `${moment().format()}`,
         editing: true,
       }].concat(testItems),
       currentId: newId,
@@ -73,8 +74,8 @@ export default class Main extends Component {
         <div className="collection">
           <a onClick={() => this.addTestItem()} className="collection-item"><i className="material-icons">add</i></a>
           {testItems.map((item, i) => {
-            const className =  `collection-item ${i==currentItemIndex?'active':''}`
-            return (<a key={item.id} onClick={() => this.setState({ currentItemIndex: i })} className={className}>{item.name}</a>)
+            const className = `collection-item ${i == currentItemIndex ? 'active' : ''}`
+            return (<a key={item.id} onClick={() => this.setState({ currentItemIndex: i })} className={className}>{item.id}#{item.name}</a>)
           })}
         </div>
       </div>
@@ -84,8 +85,8 @@ export default class Main extends Component {
           update={(item) => this.updateItem(item, currentItemIndex)}
           remove={() => this.removeItem(currentItemIndex)}
         />) : (<div>
-          <p>no test yet|尚无测试用例</p>
-          <a onClick={() => this.addTestItem()} className="waves-effect waves-light btn"><i className="material-icons right">add</i>add|添加</a>
+          <p>select from left list or ... | 从左侧列表选择测试用例或...</p>
+          <a onClick={() => this.addTestItem()} className="waves-effect waves-light btn"><i className="material-icons right">add</i>add test|添加新用例</a>
         </div>)}
       </div>
     </div>)
