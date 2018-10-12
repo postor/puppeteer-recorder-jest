@@ -30,8 +30,12 @@ export default class Main extends Component {
 
   componentDidUpdate() {
     if (this.readyToUpload) {
-      request.post('/api/db/push').query({ path: '/' }).send(this.state).then(() => { })
+      this.uploadData()
     }
+  }
+
+  uploadData() {
+    request.post('/api/db/push').query({ path: '/' }).send(this.state).then(() => { })
   }
 
   addTestItem() {
@@ -40,7 +44,7 @@ export default class Main extends Component {
     this.setState({
       testItems: [{
         id: newId,
-        name: `${moment().format()}`,
+        name: `test ${newId} ${moment().format('YYYYMMDD_HHmmss')}`,
         editing: true,
       }].concat(testItems),
       currentId: newId,
@@ -69,7 +73,7 @@ export default class Main extends Component {
   render() {
     const { testItems, currentItemIndex, } = this.state
     const currentItem = testItems.length && testItems[currentItemIndex]
-    return (<div className="row">
+    return (<div className="row" style={{ minHeight: '600px' }}>
       <div className="col s12 m4 l3">
         <div className="collection">
           <a onClick={() => this.addTestItem()} className="collection-item"><i className="material-icons">add</i></a>

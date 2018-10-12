@@ -21,10 +21,10 @@ describe('visualtest' + <%= id %>, () => {
       console.log(e)
     }
     const image = await page.screenshot({ fullPage: true })
-    const result = await target.toMatchSnapshot(image)
     await page.close()
     await browser.close()
     await differencify.cleanup()
+    const result = await target.toMatchSnapshot(image)
     expect(result).toBe(true)
   }, 60000)
 })
