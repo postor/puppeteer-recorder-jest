@@ -1,12 +1,36 @@
 import { Component } from 'react'
 import Card from './Card'
+import request from 'superagent'
 
 export default class Main extends Component {
 
+  readyToUpload = false
   state = {
     testItems: [],
     currentItemIndex: 0,
     currentId: 0,
+  }
+
+  componentDidMount() {
+    if (typeof window == 'undefined') {
+      return
+    }
+
+    request.get('/api/db/get').query({ path: '/' }).then((res) => {
+      const { data } = res.body
+      if (Object.keys(data).length) {
+        this.setState(data)
+      } else {
+        this.uploadData()
+      }
+      this.readyToUpload = true
+    })
+  }
+
+  componentDidUpdate(){
+    if(this.readyToUpload){
+      request.post('/api/db/push').query({ path: '/' }).send(this.state).then(()=>{})
+    }
   }
 
   addTestItem() {
@@ -21,7 +45,6 @@ export default class Main extends Component {
       currentId: newId,
       currentItemIndex: 0,
     })
-
   }
 
   updateItem(item, index) {
@@ -50,7 +73,8 @@ export default class Main extends Component {
         <div className="collection">
           <a onClick={() => this.addTestItem()} className="collection-item"><i className="material-icons">add</i></a>
           {testItems.map((item, i) => {
-            return (<a key={item.id} onClick={() => this.setState({ currentItemIndex: i })} className="collection-item">{item.name}</a>)
+            const className =  `collection-item ${i==currentItemIndex?'active':''}`
+            return (<a key={item.id} onClick={() => this.setState({ currentItemIndex: i })} className={className}>{item.name}</a>)
           })}
         </div>
       </div>

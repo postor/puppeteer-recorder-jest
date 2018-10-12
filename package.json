@@ -19,10 +19,14 @@
   },
   "homepage": "https://github.com/postor/puppeteer-recorder-jest#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "fs-extra": "^7.0.0",
     "next": "^7.0.1",
+    "node-json-db": "^0.9.1",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
-    "react-materialize": "^2.4.6"
+    "react-materialize": "^2.4.6",
+    "superagent": "^4.0.0-beta.5"
   }
 }

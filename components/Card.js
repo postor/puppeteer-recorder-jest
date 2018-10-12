@@ -20,14 +20,13 @@ export default class Card extends Component {
       actions.push(<a key={3} href="#">edit code|编辑代码</a>)
     }
     if (!actions.length) {
-      actions.push(<a key={4}>copy puppeteer recorder code first|请先从puppeteer-recorder拷贝代码</a>)
+      actions.push(<span key={4}><i className="material-icons">warning</i> copy puppeteer recorder code first|请先从puppeteer-recorder拷贝代码 </span>)
     }
 
     return (<div className="card">
       {(editing || onlyCodeMode) ? (<CodeMode item={item} update={(item) => update(item)} />) : (<ImageMode item={item} />)}
       <div className="card-action">
         {actions}
-
         <a onClick={() => remove()} className="right"><i className="material-icons">delete</i></a>
       </div>
     </div>)
