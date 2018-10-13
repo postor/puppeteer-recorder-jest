@@ -15,6 +15,7 @@ describe('visualtest' + <%= id %>, () => {
 
     //----your code start----
     <%= codes %>
+    page.waitFor(3000)
     //----your code end----
 
     }catch(e){

@@ -15,15 +15,16 @@ export default class CodeMode extends Component {
     const { codeGenerated, id, name } = item
     if (codeGenerated) {
       request.put('/api/file').send({
-        file: `tests/${id}-${name}.test.js`,
+        uri: `tests/${id}-${name}.test.js`,
         content: codeGenerated,
       }).then(res => {
-        const { file } = res.body
+        const { file,uri } = res.body
         if (file) {
           const { item } = this.props
           this.props.update({
             ...item,
             file,
+            uri,
           })
         }
       })
@@ -73,7 +74,7 @@ export default class CodeMode extends Component {
           }}
         />
         <div>
-          <p>code for test file: {file}</p>
+          <p>code for test file: {file} {!file&&(<a onClick={()=>this.update(item)}>generate|生成</a>)}</p>
           <textarea value={codeGenerated} style={{
             height: '20em',
           }} />
