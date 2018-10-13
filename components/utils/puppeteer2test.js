@@ -5,26 +5,32 @@ const templateString = `
 const Differencify = require('differencify')
 const launchConfig = require('../getLaunchConfig')()
 
+let toClean = []
+
+afterEach(() => {
+  toClean.forEach(x=>x())
+  toClean = []
+});
+
 describe('visualtest' + <%= id %>, () => {
   it('<%= name %>', async () => {
     const differencify = new Differencify()
     const target = differencify.init({ testName: '<%= name %>', chain: false });
     const browser = await target.launch(launchConfig)
     const page = await browser.newPage()
-    try{
+    toClean.push(async ()=>{
+      await page.close()
+      await browser.close()
+      await differencify.cleanup()  
+    })
 
     //----your code start----
     <%= codes %>
     page.waitFor(3000)
+    expect(await page.title()).not.toBe('')
     //----your code end----
 
-    }catch(e){
-      console.log(e)
-    }
     const image = await page.screenshot({ fullPage: true })
-    await page.close()
-    await browser.close()
-    await differencify.cleanup()
     const result = await target.toMatchSnapshot(image)
     expect(result).toBe(true)
   }, 60000)
