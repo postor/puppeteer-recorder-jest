@@ -2,3 +2,4 @@
 /.next
 /myDataBase.json
 /launch.json
+yarn.lock
