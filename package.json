@@ -28,7 +28,7 @@
     "jest": "^23.6.0",
     "lodash.template": "^4.4.0",
     "moment": "^2.22.2",
-    "next": "^7.0.1",
+    "next": "^9.3.3",
     "node-json-db": "^0.9.1",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
